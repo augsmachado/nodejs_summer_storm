@@ -24,24 +24,30 @@ class WeatherController {
 					const $ = cheerio.load(html);
 
 					$.html();
-					//const weather = $("div.nawv0d");
+					const weather = $("div[class=nawv0d]", "#wob_wc");
 
-					console.log(html);
+					/**
+					 * Não é possível pegar os dados do google weather utilizando essa estrategia
+					 * é necessário repensar e/ou descobri outro site ao qual possamos fazer o scraper
+					 * dos dados climáticos
+					 */
 
 					let now = [];
+					const weather_now = $(
+						"div[wob_dcp] > span",
+						"#wob_dc"
+					).text();
 
-					/*weather.each((index, element) => {
-						const weather_now = $(element)
-							.find("img.wob_tci")
-							.attr("alt");
-
-						now.push({
-							city: city,
-							weather_now: weather_now,
-						});
+					console.log(weather_now);
+					now.push({
+						city: city,
+						weather_now: weather_now,
 					});
 
-					res.json({ msg: "success", weather: now });*/
+					res.json({
+						msg: "success",
+						weather: now,
+					});
 				});
 			} catch (err) {
 				res.status(500).json({
